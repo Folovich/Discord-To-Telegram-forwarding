@@ -35,19 +35,24 @@ async def run(config_path: str) -> None:
     discord_task = asyncio.create_task(bridge.start(config.discord_token), name="discord-bridge")
     wait_task = asyncio.create_task(shutdown_event.wait(), name="shutdown-wait")
 
-    done, pending = await asyncio.wait(
-        {discord_task, wait_task},
-        return_when=asyncio.FIRST_COMPLETED,
-    )
+    try:
+        done, pending = await asyncio.wait(
+            {discord_task, wait_task},
+            return_when=asyncio.FIRST_COMPLETED,
+        )
 
-    if discord_task in done and discord_task.exception() is not None:
-        raise discord_task.exception()
+        if discord_task in done and discord_task.exception() is not None:
+            raise discord_task.exception()
 
-    logger.info("Shutdown requested, stopping bridge")
-    for task in pending:
-        task.cancel()
-    await bridge.close()
-    discord_task.cancel()
-    with contextlib.suppress(asyncio.CancelledError):
-        await discord_task
-    await sender.shutdown()
+        logger.info("Shutdown requested, stopping bridge")
+        for task in pending:
+            task.cancel()
+    finally:
+        await bridge.close()
+        discord_task.cancel()
+        wait_task.cancel()
+        with contextlib.suppress(asyncio.CancelledError):
+            await discord_task
+        with contextlib.suppress(asyncio.CancelledError):
+            await wait_task
+        await sender.shutdown()

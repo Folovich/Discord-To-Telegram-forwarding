@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 import asyncio
 
+import discord
+
 from bridge.app import run
 
 
@@ -18,7 +20,14 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    asyncio.run(run(args.config))
+    try:
+        asyncio.run(run(args.config))
+    except discord.LoginFailure:
+        print("Discord rejected the token from .env. Replace DISCORD_BOT_TOKEN with a fresh bot token.")
+    except ValueError as error:
+        print(f"Configuration error: {error}")
+    except FileNotFoundError as error:
+        print(f"Missing file: {error}")
 
 
 if __name__ == "__main__":
