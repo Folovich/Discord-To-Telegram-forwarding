@@ -1,9 +1,8 @@
 # Discord -> Telegram Bridge
-
 Бот пересылает сообщения из выбранного Discord-канала в Telegram-чат или канал.
 
 Поддерживается текст, изображения, видео, аудио, файлы, несколько Telegram-получателей на один Discord-канал, горячая перезагрузка `config.yaml` и логирование.
-
+![IMG_0719](https://github.com/user-attachments/assets/f6ff57af-57f8-40d9-bb3f-0f4fc07e9ffb)
 ## Что Нужно
 
 - Python 3.10+
