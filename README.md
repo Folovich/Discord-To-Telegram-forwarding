@@ -9,15 +9,15 @@
 - Python 3.10+
 - Discord-бот с включенным `Message Content Intent`
 - Telegram-бот от `@BotFather`
-- Файл `.env` с токенами
-- Файл `config.yaml` с каналами
+- Настроить файл `.env` с токенами
+- Настроить файл `config.yaml` с каналами
 
 ## Установка
 
 Откройте PowerShell в папке проекта:
 
 ```powershell
-cd C:\Users\[handle redacted]\Documents\DisTeg
+cd ~\Discord-To-Telegram-forwarding  
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -r requirements.txt
@@ -26,7 +26,7 @@ pip install -r requirements.txt
 Если виртуальное окружение уже создано, достаточно:
 
 ```powershell
-cd C:\Users\[handle redacted]\Documents\DisTeg
+cd ~\Discord-To-Telegram-forwarding  
 .venv\Scripts\Activate.ps1
 ```
 
@@ -40,9 +40,6 @@ cd C:\Users\[handle redacted]\Documents\DisTeg
 DISCORD_BOT_TOKEN=ваш_discord_token
 TELEGRAM_BOT_TOKEN=ваш_telegram_token
 ```
-
-Не вставляйте токены в `config.yaml`, README или чат. Если токен был опубликован, перевыпустите его.
-
 ## Настройка Каналов
 
 Каналы настраиваются в `config.yaml`.
@@ -57,9 +54,9 @@ send_retries: 5
 retry_base_delay_seconds: 1
 
 routes:
-  - discord_channel_id: 1492504681199440065
+  - discord_channel_id: 111
     telegram_targets:
-      - "-5140530396"
+      - "111"
     message_template: "[Discord] {author}: {content}"
     forward_edits: true
     forward_deletes: true
@@ -75,7 +72,7 @@ routes:
 
 ```yaml
 telegram_targets:
-  - "-1001234567890"
+  - "42"
   - "@public_channel_name"
 ```
 
@@ -90,7 +87,7 @@ python main.py
 Полный вариант после перезагрузки терминала:
 
 ```powershell
-cd C:\Users\[handle redacted]\Documents\DisTeg
+cd ~\Discord-To-Telegram-forwarding  
 .venv\Scripts\Activate.ps1
 python main.py
 ```
@@ -126,12 +123,6 @@ Telegram target:
 - Включен `Message Content Intent`.
 - У бота есть доступ к нужному каналу.
 - У бота есть права `View Channels` и `Read Message History`.
-
-Ссылка приглашения выглядит так:
-
-```text
-https://discord.com/oauth2/authorize?client_id=APPLICATION_ID&permissions=4573968371616768&integration_type=0&scope=bot
-```
 
 Замените `APPLICATION_ID` на ID вашего Discord-приложения.
 
